@@ -1,0 +1,126 @@
+.chat-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column-reverse; /* Reverse the order */
+  background-color: #171717;
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+  margin: 0 auto;
+}
+
+.chat-log {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+  color: #171717;
+  background-color: #171717;
+  width: 90%;
+  max-height: calc(100vh - 200px); /* Adjust the height as needed */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  background-color: #171717;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.chat-message.user {
+  background-color: #000000;
+  color: white;
+  align-self: flex-end;
+}
+
+.chat-message.ai {
+  background-color: #292929;
+  color: white;
+  align-self: flex-start;
+}
+
+.query-box {
+  position: fixed;
+  bottom: 20px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #000000;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Add a shadow for better visibility */
+}
+
+.query-box input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+}
+
+.query-box button {
+  width: 40px;
+  height: 40px;
+  background-color: #000000;
+  border: 2px solid white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.query-box button::before {
+  content: '➣'; /* Unicode arrow character */
+  color: white;
+  font-size: 18px;
+  position: absolute;
+}
+
+.query-box input::placeholder {
+  color: #888;
+}
+
+.typing-indicator {
+  position: fixed;
+  bottom: 85px; /* Place above the query box */
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  background-color: #292929;
+  padding: 10px;
+  border-radius: 20px;
+  font-style: italic;
+}
+
+.default-text {
+  background-color: #292929;
+  color: #0077ff;
+  font-size: 18px;
+  font-family: cursive;
+  font-weight: bold;
+  margin-bottom: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 500px;
+  border: 2px solid white; /* Add white border */
+}
