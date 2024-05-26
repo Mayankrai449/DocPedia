@@ -111,16 +111,15 @@
 
 .default-text {
   background-color: #292929;
-  color: #0077ff;
+  color: #a3ceff;
   font-size: 18px;
-  font-family: cursive;
-  font-weight: bold;
+  font-family: 	Arial;
   margin-bottom: 400px;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-  max-width: 500px;
-  border: 2px solid white; /* Add white border */
+  max-width: 450px;
+  border: 2px solid black; /* Add white border */
 }
