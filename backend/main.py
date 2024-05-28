@@ -23,6 +23,7 @@ app.add_middleware(
 )
 
 load_dotenv()
+Port = int(os.environ.get('PORT', 5000))
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
 aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -77,4 +78,4 @@ async def query_index(request: Request, data: QueryData):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port='8080')
+    uvicorn.run(app, host="0.0.0.0", port=Port)

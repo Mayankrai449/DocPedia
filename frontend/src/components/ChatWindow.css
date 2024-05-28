@@ -123,3 +123,36 @@
   max-width: 450px;
   border: 2px solid black; /* Add white border */
 }
+
+.flash-error {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background-color: #e53c3c;
+  color: white;
+  font-style: bold;
+  padding: 10px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+}
+
+.flash-error .close-btn-wrapper {
+  border: 1px solid rgb(0, 0, 0);
+  display: flex;
+  border-radius: 5px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 1280px;
+}
+
+.flash-error .close-btn {
+  background: black;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 5px 10px; 
+}
