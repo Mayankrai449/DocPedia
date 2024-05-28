@@ -24,16 +24,20 @@ app.add_middleware(
 
 load_dotenv()
 openai_api_key = os.environ.get("OPENAI_API_KEY")
+aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+aws_region = os.environ.get('AWS_DEFAULT_REGION')
 
 index = None
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
     # Upload file to S3 bucket
-    s3 = boto3.client('s3')
-    bucket_name = 'your-bucket-name'
+    s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name=aws_region)
+    bucket_name = os.environ.get('S3_BUCKET_NAME')
+    
     object_key = f'uploaded-files/{file.filename}'
-
+    
     try:
         s3.upload_fileobj(file.file, bucket_name, object_key)
         print(f"File '{file.filename}' uploaded to S3 bucket '{bucket_name}'")
@@ -73,4 +77,4 @@ async def query_index(request: Request, data: QueryData):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8222)
+    uvicorn.run(app, host="0.0.0.0", port='8080')
