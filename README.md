@@ -71,8 +71,22 @@ To get started with DocPedia, follow these simple setup instructions:
 
 3. **Retrieve Information**: DocPedia will analyze the document and provide relevant information based on your queries.
 
-4. **Follow Up Questions**: Ask new or a follow up question on same document.
+4. **Follow Up Questions**: Ask new or a follow-up question on the same document.
 
 ---
 
 Thank you for choosing DocPedia! If you have any questions or encounter any issues, please don't hesitate to reach out - mayankraivns@gmail.com Happy querying! 📚🔍
+
+## Environment Variables
+
+To run DocPedia locally or deploy it to a server, you need to set up the following environment variables:
+
+- `DATABASE_URL`: The URL of your PostgreSQL database.
+- `OPENAI_API_KEY`: Your OpenAI API key for accessing the AI-powered document analysis.
+- `AWS_ACCESS_KEY_ID`: Your AWS access key ID for accessing AWS services.
+- `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key for accessing AWS services.
+- `AWS_DEFAULT_REGION`: The default region for AWS services.
+- `S3_BUCKET_NAME`: The name of your S3 bucket for storing uploaded documents.
+- `PORT`: The port on which the FastAPI backend server should run.
+
+Make sure to set these environment variables in your development environment or when deploying DocPedia to a server.
