@@ -57,7 +57,9 @@ To get started with DocPedia, follow these simple setup instructions:
     npm start
     ```
 
-8. **Access DocPedia**: Once both the backend and frontend servers are running, you can access DocPedia by navigating to `http://localhost:3000` in your web browser.
+8. **Setup Enviornment Variables**: Setup .env file in /backend with environment variables mentioned at the bottom of the page. Update the Port in frontend/src/setupProxy.js with the Port you are using in backend/.env .
+
+9. **Access DocPedia**: Once both the backend and frontend servers are running, you can access DocPedia by running your react app in your web browser.
 
 ## Usage
 
