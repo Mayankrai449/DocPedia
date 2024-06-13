@@ -32,10 +32,6 @@ To get started with DocPedia, follow these simple setup instructions:
     npm install
     ```
 
-    ```
-    npm install axios
-    ```
-
 4. **Navigate to the Backend Directory**: Change your directory to the `backend` folder:
 
     ```
