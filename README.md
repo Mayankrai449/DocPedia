@@ -44,20 +44,20 @@ To get started with DocPedia, follow these simple setup instructions:
     pip install -r requirements.txt
     ```
 
-6. **Run the FastAPI Application**: Start the FastAPI backend server:
+6. **Setup Enviornment Variables**: Setup .env file in /backend with environment variables mentioned at the bottom of the page. Update the Port in frontend/src/setupProxy.js with the Port you are using in backend/.env .
+
+7. **Run the FastAPI Application**: Start the FastAPI backend server:
 
     ```
     uvicorn main:app --reload
     ```
 
-7. **Start the Frontend**: Return to the `frontend` directory and start the React frontend:
+8. **Start the Frontend**: Return to the `frontend` directory and start the React frontend:
 
     ```
     cd ../frontend
     npm start
     ```
-
-8. **Setup Enviornment Variables**: Setup .env file in /backend with environment variables mentioned at the bottom of the page. Update the Port in frontend/src/setupProxy.js with the Port you are using in backend/.env .
 
 9. **Access DocPedia**: Once both the backend and frontend servers are running, you can access DocPedia by running your react app in your web browser.
 
