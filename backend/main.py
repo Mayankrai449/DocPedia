@@ -78,4 +78,4 @@ async def query_index(request: Request, data: QueryData):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=Port)
+    uvicorn.run(app, host="127.1.1.1", port=Port)
