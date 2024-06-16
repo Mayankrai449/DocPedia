@@ -55,9 +55,11 @@ const ChatWindow = ({ pdfs }) => {
       {error && (
         <div className="flash-error">
           {error}
+          <div className='close-btn-wrapper'>
           <button className="close-btn" onClick={handleErrorClose}>
             x
           </button>
+          </div>
         </div>
       )}
       <div className="chat-window">
