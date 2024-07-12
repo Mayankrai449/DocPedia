@@ -1,6 +1,14 @@
 # DocPedia
 
-DocPedia is an AI-based document querying application that enables users to upload PDF documents and query any information contained within them. With DocPedia, you can easily extract and retrieve specific information from your documents using LlamaIndex natural language queries.
+DocPedia is an AI-based document querying application that enables users to upload PDF documents and query any information contained within them. With DocPedia, you can easily extract and retrieve specific information from your documents using LlamaIndex natural language queries. This app is powered by GPT-3.5 Turbo and OpenAI Embedding models.
+
+Additionally, users can ask any question about the document's content and receive detailed explanations, making it a powerful tool for understanding and interacting with your document data. It stores the PDF using AWS S3 Bucket and uses boto3 to interact with the data and it can learn from several PDFs by indexing it together.
+
+![Front](images/page.png)
+
+![working of app](images/working.png) 
+
+Video Demonstration of the App in Action: [Video Demonstration](https://drive.google.com/file/d/1QXX-mYXZqt5-ZrJb6pg4ozZrmauOYDYO/view)
 
 ## Features
 
@@ -9,6 +17,7 @@ DocPedia is an AI-based document querying application that enables users to uplo
 - **AI-powered Document Analysis**: DocPedia leverages Open AI algorithms to analyze and extract relevant information from the uploaded documents.
 - **FastAPI Backend**: The backend of DocPedia is built using FastAPI, a modern Python web framework.
 - **React Frontend**: The frontend interface of DocPedia is developed using React.js, providing a responsive and intuitive user experience.
+- **AWS S3 Storage**: The app uses AWS S3 storage to save the PDF files, which are collectively extracted for indexing.
 
 ## Setup Instructions
 
@@ -17,7 +26,8 @@ To get started with DocPedia, follow these simple setup instructions:
 1. **Clone the Repository**: Clone the DocPedia repository to your local machine:
 
     ```
-    git clone https://github.com/your-username/docpedia.git
+    git clone https://github.com/Mayankrai449/DocPedia.git
+
     ```
 
 2. **Navigate to the Frontend Directory**: Change your directory to the `frontend` folder:
@@ -30,6 +40,10 @@ To get started with DocPedia, follow these simple setup instructions:
 
     ```
     npm install
+    ```
+
+    ```
+    npm install axios
     ```
 
 4. **Navigate to the Backend Directory**: Change your directory to the `backend` folder:
