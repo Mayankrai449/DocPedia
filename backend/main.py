@@ -7,6 +7,7 @@ from models.model import QueryData
 from models.crud import create_document, get_documents
 from llama_index.core import GPTVectorStoreIndex, Document
 from llama_index.embeddings.openai import OpenAIEmbedding
+from services.s3_reader import S3Reader
 import fitz
 from typing import List
 import boto3
@@ -49,9 +50,24 @@ def upload_to_s3(file):
 
 def index_document(filename, text):
     global index
-    doc = Document(text=text, metadata={"filename": filename})          # Create a compatible document format for Indexing
-    index = GPTVectorStoreIndex.from_documents([doc], embedding=embedding)      # Use Vector Indexing to index the document
+    if index is None:
+        doc = Document(text=text, metadata={"filename": filename})          # Create a compatible document format for Indexing
+        index = GPTVectorStoreIndex.from_documents([doc], embedding=embedding)      # Use Vector Indexing to index the document
+    else:
+        s3_reader = S3Reader('your-s3-bucket-name')
+        documents = s3_reader.load_data()
+        
+        # Update the existing index with new documents
+        for doc in documents:
+            index.insert(doc)
+            
     return index
+
+def query_index(query):
+    if index is None:
+        raise ValueError("Index not initialized. Please upload a document first.")
+    query_engine = index.as_query_engine()          # Query the Indexed data
+    return query_engine.query(query)
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
@@ -69,25 +85,20 @@ async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db
 
         return {"filename": file.filename, "document_id": document.id}
     except Exception as e:
-        print(f"Detailed error: {str(e)}")  # Add this line
+        print(f"Detailed error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error uploading file: {str(e)}")
+
 
 @app.get("/documents", response_model=List[Documents])
 def get_all_documents(db: Session = Depends(get_db)):
     return get_documents(db)
 
+
 @app.post("/query")
 async def query_index(request: Request, data: QueryData):
     try:
-        if index is None:
-            raise HTTPException(status_code=500, detail="Index not initialized.")
-        
-        query_engine = index.as_query_engine()
-
-        response = query_engine.query(data.query)
-        
+        response = query_index(data.query)
         return response
-    
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
