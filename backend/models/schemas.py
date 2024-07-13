@@ -1,11 +1,9 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-class DocumentBase(BaseModel):
-    filename: str
-
-class Document(DocumentBase):
+class Documents(BaseModel):
     id: int
+    filename: str
     upload_date: datetime
 
     class Config:

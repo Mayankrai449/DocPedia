@@ -1,12 +1,13 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from llama_index_client import OpenAiEmbedding, S3Reader
 from sqlalchemy.orm import Session
 from models.database import get_db
-from models.schemas import Document
+from models.schemas import Documents
 from models.model import QueryData
 from models.crud import create_document, get_documents
-from llama_index.core import GPTVectorStoreIndex
+from llama_index.core import GPTVectorStoreIndex, Document
+from llama_index.embeddings.openai import OpenAIEmbedding
+import fitz
 from typing import List
 import boto3
 import os
@@ -23,41 +24,55 @@ app.add_middleware(
 )
 
 load_dotenv()
-Port = int(os.environ.get('PORT', 5000))
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
 aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
 aws_region = os.environ.get('AWS_DEFAULT_REGION')
+bucket_name = os.environ.get('S3_BUCKET_NAME')
+
+embedding = OpenAIEmbedding(api_key=openai_api_key)
 
 index = None
 
+def get_s3_client():
+    return boto3.client(
+        's3',
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
+        region_name=aws_region
+    )
+
+def upload_to_s3(file):
+    s3 = get_s3_client()
+    s3.upload_fileobj(file.file, bucket_name, file.filename)        # Upload file to S3 bucket
+    print(f"File '{file.filename}' uploaded to S3 bucket '{bucket_name}'")
+
+def index_document(filename, text):
+    global index
+    doc = Document(text=text, metadata={"filename": filename})          # Create a compatible document format for Indexing
+    index = GPTVectorStoreIndex.from_documents([doc], embedding=embedding)      # Use Vector Indexing to index the document
+    return index
+
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
-    # Upload file to S3 bucket
-    s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name=aws_region)
-    bucket_name = os.environ.get('S3_BUCKET_NAME')
-    
-    object_key = f'uploaded-files/{file.filename}'
-    
     try:
-        s3.upload_fileobj(file.file, bucket_name, object_key)
-        print(f"File '{file.filename}' uploaded to S3 bucket '{bucket_name}'")
+        file_content = await file.read()
+        
+        upload_to_s3(file)
+        
+        document = create_document(db, file.filename)
+
+        pdf_document = fitz.open(stream=file_content, filetype="pdf")
+        text = "".join([page.get_text() for page in pdf_document])
+
+        doc_id = index_document(file.filename, text)
+
+        return {"filename": file.filename, "document_id": document.id}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error uploading file to S3: {str(e)}")
+        print(f"Detailed error: {str(e)}")  # Add this line
+        raise HTTPException(status_code=500, detail=f"Error uploading file: {str(e)}")
 
-    # Save document metadata to the database
-    document = create_document(db, file.filename)
-
-    # Create a new index with documents from S3 bucket
-    global index
-    s3_reader = S3Reader(bucket_name, prefix='uploaded-files/')
-    documents = s3_reader.load_data()
-    embedding = OpenAiEmbedding(api_key=openai_api_key)
-    index = GPTVectorStoreIndex.from_documents(documents, embedding=embedding)
-
-    return {"filename": file.filename, "document_id": document.id}
-
-@app.get("/documents", response_model=List[Document])
+@app.get("/documents", response_model=List[Documents])
 def get_all_documents(db: Session = Depends(get_db)):
     return get_documents(db)
 
@@ -78,4 +93,4 @@ async def query_index(request: Request, data: QueryData):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.1.1.1", port=Port)
+    uvicorn.run(app, host="127.1.1.1", port=8001)

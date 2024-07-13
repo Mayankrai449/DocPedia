@@ -1,20 +1,19 @@
 .app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    background-color: #171717;
-  }
-  
-  .main-content {
-    display: flex;
-    flex: 1;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #171717;
+}
 
-  }
-  
-  .chat-window {
-    width: 80%;
-  }
-  
+.main-content {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+
+}
+
+.chat-window {
+  width: 80%;
+}
