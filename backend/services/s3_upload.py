@@ -16,7 +16,12 @@ def get_s3_client():
         region_name=aws_region
     )
 
-def upload_to_s3(file):
+def upload_to_s3(file_content, filename):
     s3 = get_s3_client()
-    s3.upload_fileobj(file.file, bucket_name, file.filename)        # Upload file to S3 bucket
-    print(f"File '{file.filename}' uploaded to S3 bucket '{bucket_name}'")
+    try:
+        s3.put_object(Body=file_content, Bucket=bucket_name, Key=filename)
+        print(f"File '{filename}' uploaded to S3 bucket '{bucket_name}'")
+        return True
+    except Exception as e:
+        print(f"Error uploading file to S3: {str(e)}")
+        return False

@@ -13,7 +13,8 @@ async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db
     try:
         file_content = await file.read()
         
-        upload_to_s3(file)
+        if not upload_to_s3(file_content, file.filename):
+            raise HTTPException(status_code=500, detail="Failed to upload file to S3")
         
         document = create_document(db, file.filename)
 

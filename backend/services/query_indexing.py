@@ -17,7 +17,7 @@ def index_document(filename, text):
         doc = Document(text=text, metadata={"filename": filename})          # Create a compatible document format for Indexing
         index = GPTVectorStoreIndex.from_documents([doc], embedding=embedding)      # Use Vector Indexing to index the document
     else:
-        s3_reader = S3Reader('your-s3-bucket-name')
+        s3_reader = S3Reader()
         documents = s3_reader.load_data()
         
         # Update the existing index with new documents
