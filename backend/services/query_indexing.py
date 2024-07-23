@@ -14,7 +14,7 @@ index = None
 def index_document(filename, text):
     global index
     if index is None:
-        doc = Document(text=text, metadata={"filename": filename})          # Create a compatible document format for Indexing
+        doc = Document(text=text, metadata={"filename": filename})                 # Create a compatible document format for Indexing
         index = GPTVectorStoreIndex.from_documents([doc], embedding=embedding)      # Use Vector Indexing to index the document
     else:
         s3_reader = S3Reader()

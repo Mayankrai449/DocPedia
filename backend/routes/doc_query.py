@@ -1,17 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from models.model import QueryData
 from models.database import get_db
-from models.schemas import Documents
+from models.schemas import DocumentResponse, QueryData
 from models.crud import get_documents
 from typing import List
 from services.query_indexing import query_index
 
 router = APIRouter()
 
-@router.get("/documents", response_model=List[Documents])
+@router.get("/documents", response_model=List[DocumentResponse])
 def get_all_documents(db: Session = Depends(get_db)):
-    '''Show history of Documents used'''
+    """Show history of Documents used"""
     try:
         documents = get_documents(db)
         if documents is None:
@@ -23,7 +22,7 @@ def get_all_documents(db: Session = Depends(get_db)):
 
 @router.post("/query")
 async def query_data(data: QueryData):
-    '''Input user query and return a response'''
+    """Input user query and return a response"""
     try:
         response = query_index(data.query)
         return response

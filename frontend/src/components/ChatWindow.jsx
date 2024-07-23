@@ -17,9 +17,9 @@ const ChatWindow = ({ pdfs }) => {
     if (!query.trim()) {
       return; // Don't submit if query is empty
     }
-  
+    console.log(pdfs);
     if (!pdfs || Object.keys(pdfs).length === 0) {
-      setError('No PDF found');
+      setError('No PDF found'); // Show error if no PDF is uploaded
       return;
     }
   

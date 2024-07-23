@@ -11,7 +11,7 @@ function App() {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const response = await axiosInstance.post('/upload', formData, {
+      const response = await axiosInstance.post('/upload', formData, {  // uploading the file to the backend
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -19,7 +19,7 @@ function App() {
       setPdfs([...pdfs, response.data]);
     } catch (error) {
       console.error('Upload error:', error.response ? error.response.data : error.message);
-      // Handle the error appropriately (e.g., show an error message to the user)
+      // Upload Error Handling
     }
   };
 

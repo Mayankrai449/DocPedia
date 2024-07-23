@@ -11,6 +11,7 @@ class S3Reader(BaseReader):
         self.s3 = get_s3_client()
 
     def load_data(self):
+        """Load data from S3 bucket"""
         documents = []
         try:
             response = self.s3.list_objects_v2(Bucket=self.bucket_name)
@@ -19,21 +20,21 @@ class S3Reader(BaseReader):
                 file_key = obj['Key']
                 try:
 
-                    get_response = self.s3.get_object(Bucket=self.bucket_name, Key=file_key)
+                    get_response = self.s3.get_object(Bucket=self.bucket_name, Key=file_key)    # Get the file from S3
                     file_content = get_response['Body'].read()
                     
                     if file_key.lower().endswith('.pdf'):
-                        text = self.process_pdf(file_content)
+                        text = self.process_pdf(file_content)   # Process the PDF file
                     else:
                         text = file_content.decode('utf-8')
                         
-                    if not text.strip():
+                    if not text.strip():                                    # Check if text is empty
                         print(f"Warning: File {file_key} contains no text")
                         continue
 
                     documents.append(Document(text=text, metadata={"filename": file_key}))
                     
-                except botocore.exceptions.ClientError as e:
+                except botocore.exceptions.ClientError as e:                                    # Handle S3 ClientError
                     print(f"S3 ClientError for file {file_key}: {e.response['Error']}")
                 except Exception as file_error:
                     print(f"Error processing file {file_key}: {str(file_error)}")
@@ -44,18 +45,19 @@ class S3Reader(BaseReader):
             return []
 
     def process_pdf(self, content):
+        """Extract text from PDF file"""
         try:
             pdf_file = io.BytesIO(content)
             pdf_reader = PyPDF2.PdfReader(pdf_file)
             
-            if len(pdf_reader.pages) == 0:
+            if len(pdf_reader.pages) == 0:      # Check for no pages
                 print("PDF has no pages")
                 return ""
 
             text = ""
-            for i, page in enumerate(pdf_reader.pages):
+            for i, page in enumerate(pdf_reader.pages):         # Extracting text from each page
                 try:
-                    page_text = page.extract_text()
+                    page_text = page.extract_text()     
                     if page_text:
                         text += page_text
                     else:
