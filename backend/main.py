@@ -17,6 +17,10 @@ app.add_middleware(
 app.include_router(upload.router)
 app.include_router(doc_query.router)
 
+@app.get("/health")
+async def read_health():
+    return {"status": "ok"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=Port)
