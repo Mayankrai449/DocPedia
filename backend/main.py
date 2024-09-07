@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import upload, doc_query
 
-Port = 8002
+Port = 8000
 
 app = FastAPI()
 
