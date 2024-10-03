@@ -17,8 +17,9 @@ app.add_middleware(
 app.include_router(upload.router)
 app.include_router(doc_query.router)
 
-@app.route("/health", methods = ["GET", "HEAD"])
-async def read_health():
+@app.head("/health")
+@app.get("/health")
+def health():
     return {"status": "ok"}
 
 if __name__ == "__main__":
