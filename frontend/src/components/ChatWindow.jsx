@@ -66,7 +66,7 @@ const ChatWindow = ({ pdfs }) => {
         <div className="chat-log" ref={chatLogRef}>
           {showDefaultText && (
             <div className="default-text">
-              <p>Upload your PDF, then explore its depths with our AI-driven Q&A feature!
+              <p>Upload your PDF, then explore its depths with our AI-driven Q&A feature! 🤖
               </p>
             </div>
           )}

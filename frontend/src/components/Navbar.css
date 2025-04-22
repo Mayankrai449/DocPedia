@@ -1,14 +1,21 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 5px 70px;
-  background-color: #000000;
-  width: 100vw;
+  padding: 13px;
+  font-size: 18px;
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-bottom: 2px solid rgb(45, 22, 159);
+  box-shadow: 0 2px 4px rgba(45, 22, 159, 0.2);
+  position: relative;
+  z-index: 10; 
 }
 
-.navbar-logo {
-  color: #2a91ff;
+.navbar-logo h1 {
+  color: rgb(73, 79, 255);
+  text-align: center;
+  margin: 0;
 }
 
 .upload-btn-wrapper {
